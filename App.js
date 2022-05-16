@@ -8,6 +8,13 @@ export default function App() {
   const downloadDocument = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
     const filesDirectory = FileSystem.cacheDirectory + "ExampleFolder";
+    //pdf doesnt work
+    const fileSource = "http://www.africau.edu/images/default/sample.pdf";
+    const fileName = "sample.pdf";
+    //image works
+    // const fileSource = "https://irefindex.vib.be/wiki/images/a/a9/Example.jpg";
+    // const fileName = "example.jpg";
+
     try {
       if (status === "granted") {
         const folder = await FileSystem.getInfoAsync(filesDirectory);
@@ -16,21 +23,21 @@ export default function App() {
           await FileSystem.makeDirectoryAsync(filesDirectory);
         }
         const download = await FileSystem.downloadAsync(
-          "http://www.africau.edu/images/default/sample.pdf",
-          `${filesDirectory}/example.pdf`
+          fileSource,
+          `${filesDirectory}/${fileName}`
         );
         console.log("download", download);
         console.log(
           "passing this to create asset",
-          `${filesDirectory}/example.pdf`
+          `${filesDirectory}/${fileName}`
         );
         const asset = await MediaLibrary.createAssetAsync(
-          `${filesDirectory}/example.pdf`
+          `${filesDirectory}/${fileName}`
         );
         console.log("asset", asset);
 
         const fileInfo = await FileSystem.getInfoAsync(
-          `${filesDirectory}/example.pdf`
+          `${filesDirectory}/${fileName}`
         );
         console.log("fileInfo", fileInfo);
 
